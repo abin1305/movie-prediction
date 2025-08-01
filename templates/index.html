@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CINIMAS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff;
+      color: #000;
+      padding-top: 90px; /* Add space for fixed navbar (adjust if needed) */
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      background-color: #fff;
+      position: fixed;      /* Make navbar fixed */
+      top: 0;               /* Stick to top */
+      left: 0;
+      width: 100%;
+      z-index: 999;         /* Stay above other content */
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04); /* Optional: subtle shadow */
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      transition: right 0.3s;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+    }
+
+    .book-trip {
+      background-color: black;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 15px;
+    }
+ 
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      width: 30px;
+      height: 25px;
+      justify-content: space-between;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 4px;
+      background: #000;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    @media (max-width: 900px) {
+      header {
+        padding: 20px 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        position: absolute;
+        top: 70px;
+        right: -200px;
+        background: #fff;
+        flex-direction: column;
+        width: 180px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        padding: 20px 0;
+        z-index: 100;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      nav.active {
+        right: 20px;
+        opacity: 1;
+        pointer-events: auto;
+        width: 100%;
+      }
+
+      nav a {
+        margin: 10px 0;
+      }
+
+      .book-trip {
+        margin: 10px 0 0 0;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 50px;
+      background: linear-gradient(to bottom, #e0f7fa, #fff);
+      border-radius: 20px;
+    }
+
+    .hero-text {
+      max-width: 50%;
+    }
+
+    .hero-text h4 {
+      font-size: 14px;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    .hero-text h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .hero-text a {
+background: linear-gradient(45deg, #87adfe, #ff77cd);   
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .hero img {
+      max-width: 50%;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-text, .hero img {
+        max-width: 100%;
+      }
+    }
+
+    .hero img {
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .about {
+      padding: 50px;
+      background-color: #f8f9fa;
+      border-radius: 20px;
+      text-align: center;
+    }
+
+    .about h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .about p {
+      font-size: 18px;
+      color: #555;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+
+
+      h1 {
+      color: #222;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 280px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+background: linear-gradient(45deg, #87adfe, #ff77cd);   
+      border: none;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .movie-check {
+      padding: 50px;
+      background-color: #f8f9fa;
+      border-radius: 20px;
+      text-align: center;
+    }
+    .movie-check h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    .movie-check form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .movie-check input[type="text"] {
+      width: 300px;
+      margin-bottom: 15px;
+    }
+    .movie-check button {
+      width: 150px;
+    }
+    .movie-check .result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    } 
+    
+    
+
+
+.contact-section {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 40px;
+  /* border-radius: 10px; */
+  color: white;
+  /* max-width: 1000px;
+  width: 100%; */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.contact-form {
+  flex: 1;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  color: #333;
+}
+
+.contact-form h3 {
+  margin-bottom: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.contact-form textarea {
+  resize: none;
+  height: 100px;
+}
+
+.contact-form button {
+  background: #00bcd4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.contact-form button:hover {
+  background: #0097a7;
+}
+.contact-form h1{
+  text-align: center;
+  font-size: 36px;
+}
+
+
+
+.footer {
+  background-color: #222;
+  color: #ddd;
+  padding: 40px 20px 20px;
+  font-size: 14px;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer h3 {
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.footer-about,
+.footer-links,
+.footer-contact {
+  flex: 1 1 300px;
+  margin: 10px;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: #bbb;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #00bcd4;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #444;
+  margin-top: 20px;
+}
+  </style>
+</head>
+<body>
+
+  <header >
+    <div class="logo">Cinema Language Finder</div>
+    <nav id="nav-menu">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="#movie" class="book-trip">Check Language</a>
+    </nav>
+    <div class="hamburger" id="hamburger-btn" aria-label="Open navigation" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <section class="hero" id="home"  >
+    <div class="hero-text">
+      <h4>FINDS YOUR CINIMAS LANGUAGE</h4>
+      <h1>Experience <br>The Magic Of <br>website</h1>
+      <a href="#movie">try for free</a>
+    </div>
+    <img src="/static/home cinima image.jpg" alt="Airplanes" class="hero-image">
+    <!-- Replace with your airplane image URL -->
+  </section>
+
+  <section class="about"   id="about">
+    <h1>about section</h1>
+    <p>Welcome to our cinema language finder! This tool helps you discover the language of your favorite movies. Simply enter the movie name, and we'll provide you with the language information.
+   Whether you're looking for English, Malayalam, or any other language, our database has you covered. Enjoy exploring the diverse world of cinema languages!
+    For any queries or suggestions, feel free to contact us </p>
+  </section>
+
+
+  <section class="movie-check"  id="movie">
+ <h1>check language</h1>
+
+  <form method="POST">
+    <input type="text" name="movie" placeholder="Enter a movie name" required>
+    <br>
+    <button type="submit">submit</button>
+  </form>
+
+  {% if result %}
+    <div class="result">{{ result }}</div>
+  {% endif %}
+
+
+  </section>
+
+
+ 
+  
+  <section class="contact-section"  id="contact">
+  
+
+    <div class="contact-form">
+      <form>
+        <h1>contact us</h1>
+        <h3>Send Message</h3>
+        <input type="text" placeholder="Full Name" required>
+        <input type="email" placeholder="Email" required>
+        <textarea placeholder="Type your Message..." required></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </section>
+
+<footer class="footer"  id="footer">
+  <div class="footer-container">
+    <div class="footer-about">
+      <h3>About Us</h3>
+      <p>Welcome to our cinema language finder! This tool helps you discover the language of your favorite movies</p>
+    </div>
+
+    <div class="footer-links">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#home">Home</a></li>
+       
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h3>Contact Info</h3>
+      <p>📍 4671 Sugar Camp Road, Minnesota</p>
+      <p>📞 507-xxx-xxxx</p>
+      <p>📧 wtrub478t80@temporary-mail.net</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 CINIMAS. All rights reserved.</p>
+  </div>
+</footer>
+  <script>
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger-btn');
+    const navMenu = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+    // Optional: close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+        navMenu.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
